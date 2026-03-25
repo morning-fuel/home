@@ -1,73 +1,137 @@
-import { useState } from "react";
+import { bowls } from "@/data/bowls";
+import { newPlans } from "@/data/plans";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import React from "react";
 
-const bowls = ["Basic Fuel Bowl (₹69)", "Mid Fuel Bowl (₹89)", "Premium Fuel Bowl (₹119)"];
-const planOptions = ["No Plan – One Time", "5 Days Basic Plan (₹1,449/mo)", "5 Days Mid Plan (₹1,849/mo)", "5 Days Premium Plan (₹2,449/mo)"];
+interface OrderFormProps {
+  selectedBowl: string;
+  selectedPlan: string;
+  setSelectedBowl: (bowlId: string) => void;
+  setSelectedPlan: (planId: string) => void;
+}
 
-const OrderForm = () => {
+const OrderForm = ({
+  selectedBowl,
+  selectedPlan,
+  setSelectedBowl,
+  setSelectedPlan,
+}: OrderFormProps) => {
   const { ref, isVisible } = useScrollReveal();
-  const [form, setForm] = useState({ name: "", address: "", bowl: bowls[0], plan: planOptions[0] });
+  const [name, setName] = React.useState("");
+  const [address, setAddress] = React.useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const msg = `Hi Morning Fuel! I'd like to place an order.\n\nName: ${form.name}\nAddress: ${form.address}\nBowl: ${form.bowl}\nPlan: ${form.plan}`;
-    window.open(`https://wa.me/919106116932?text=${encodeURIComponent(msg)}`, "_blank");
+    const bowlObj = bowls.find((b) => b.id === selectedBowl);
+    const planObj = newPlans.find((p) => p.id === selectedPlan);
+
+    const msg = `Hi Morning Fuel! I'd like to place an order.
+    
+Name: ${name}
+Address: ${address}
+Bowl: ${bowlObj?.name ?? selectedBowl}
+Plan: ${planObj?.name ?? selectedPlan}`;
+
+    window.open(
+      `https://wa.me/919106116932?text=${encodeURIComponent(msg)}`,
+      "_blank",
+    );
   };
+
+  // Get available plans for selected bowl
+  const availablePlans = newPlans.map((plan) => ({
+    ...plan,
+    price: plan.prices[selectedBowl as keyof typeof plan.prices],
+  }));
 
   return (
     <section id="order" className="section-padding bg-background" ref={ref}>
       <div className="container-narrow max-w-xl mx-auto">
-        <div className={`text-center mb-10 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}>
-          <span className="text-sm font-semibold text-primary uppercase tracking-widest">Place Order</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2 text-balance">Order Your Bowl</h2>
+        <div
+          className={`text-center mb-10 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+          }`}
+        >
+          <span className="text-sm font-semibold text-primary uppercase tracking-widest">
+            Place Order
+          </span>
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2 text-balance">
+            Order Your Bowl
+          </h2>
         </div>
 
         <form
           onSubmit={handleSubmit}
-          className={`glass-card rounded-2xl p-6 md:p-8 space-y-5 transition-all duration-700 delay-150 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+          className={`glass-card rounded-2xl p-6 md:p-8 space-y-5 transition-all duration-700 delay-150 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
         >
+          {/* Name */}
           <div>
-            <label className="block text-sm font-medium text-foreground mb-1.5">Your Name</label>
+            <label className="block text-sm font-medium text-foreground mb-1.5">
+              Your Name
+            </label>
             <input
               type="text"
               required
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="w-full border border-border rounded-xl px-4 py-3 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/40 transition"
-              placeholder="Satish Dabhi"
+              placeholder="What should we call you?"
             />
           </div>
+
+          {/* Address */}
           <div>
-            <label className="block text-sm font-medium text-foreground mb-1.5">Delivery Address</label>
+            <label className="block text-sm font-medium text-foreground mb-1.5">
+              Delivery Address
+            </label>
             <input
               type="text"
               required
-              value={form.address}
-              onChange={(e) => setForm({ ...form, address: e.target.value })}
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
               className="w-full border border-border rounded-xl px-4 py-3 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/40 transition"
               placeholder="Office/Home address in Ahmedabad"
             />
           </div>
+
+          {/* Select Bowl */}
           <div>
-            <label className="block text-sm font-medium text-foreground mb-1.5">Select Bowl</label>
+            <label className="block text-sm font-medium text-foreground mb-1.5">
+              Select Bowl
+            </label>
             <select
-              value={form.bowl}
-              onChange={(e) => setForm({ ...form, bowl: e.target.value })}
+              value={selectedBowl}
+              onChange={(e) => setSelectedBowl(e.target.value)}
               className="w-full border border-border rounded-xl px-4 py-3 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/40 transition"
             >
-              {bowls.map((b) => <option key={b}>{b}</option>)}
+              {bowls.map((b) => (
+                <option key={b.id} value={b.id}>
+                  {b.name} (₹{b.price})
+                </option>
+              ))}
             </select>
           </div>
+
+          {/* Select Plan */}
           <div>
-            <label className="block text-sm font-medium text-foreground mb-1.5">Select Plan</label>
+            <label className="block text-sm font-medium text-foreground mb-1.5">
+              Select Plan
+            </label>
             <select
-              value={form.plan}
-              onChange={(e) => setForm({ ...form, plan: e.target.value })}
+              value={selectedPlan}
+              onChange={(e) => setSelectedPlan(e.target.value)}
               className="w-full border border-border rounded-xl px-4 py-3 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/40 transition"
             >
-              {planOptions.map((p) => <option key={p}>{p}</option>)}
+              {availablePlans.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.name} – ₹{p.price} {p.period}
+                </option>
+              ))}
             </select>
           </div>
+
           <button
             type="submit"
             className="w-full bg-primary text-primary-foreground font-semibold py-3.5 rounded-full hover:opacity-90 active:scale-[0.97] transition-all"

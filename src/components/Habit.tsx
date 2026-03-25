@@ -23,7 +23,7 @@ const Habit = () => {
         </div>
         <div className={`mt-8 transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <a
-            href="#plans"
+            href="#order"
             className="inline-block bg-primary text-primary-foreground font-semibold px-8 py-3 rounded-full hover:opacity-90 active:scale-[0.97] transition-all"
           >
             Start Your Plan Today

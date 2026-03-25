@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Menu from "@/components/Menu";
@@ -13,23 +14,44 @@ import WhyChooseUs from "@/components/WhyChooseUs";
 import Trust from "@/components/Trust";
 import Habit from "@/components/Habit";
 
-const Index = () => (
-  <div className="min-h-screen">
-    <Navbar />
-    <Hero />
-    <LifestyleHook />
-    <Comparison />
-    <Menu />
-    <Benefits />
-    <Habit />
-    <SubscriptionPlans />
-    <OrderForm />
-    <WhyChooseUs />
-    <Tracking />
-    <MapSection />
-    <Trust />
-    <Footer />
-  </div>
-);
+const Index = () => {
+  // Common state for bowl & plan
+  const [selectedBowl, setSelectedBowl] = useState<string | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+
+  return (
+    <div className="min-h-screen">
+      <Navbar />
+      <Hero />
+      <LifestyleHook />
+      <Comparison />
+      <Menu
+        selectedBowl={selectedBowl}
+        setSelectedBowl={setSelectedBowl}
+        selectedPlan={selectedPlan}
+        setSelectedPlan={setSelectedPlan}
+      />
+      <Benefits />
+      <Habit />
+      <SubscriptionPlans
+        selectedBowl={selectedBowl}
+        setSelectedBowl={setSelectedBowl}
+        selectedPlan={selectedPlan}
+        setSelectedPlan={setSelectedPlan}
+      />
+      <OrderForm
+        selectedBowl={selectedBowl}
+        setSelectedBowl={setSelectedBowl}
+        selectedPlan={selectedPlan}
+        setSelectedPlan={setSelectedPlan}
+      />
+      <WhyChooseUs />
+      <Tracking />
+      <MapSection />
+      <Trust />
+      <Footer />
+    </div>
+  );
+};
 
 export default Index;
