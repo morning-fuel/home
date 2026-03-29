@@ -16,8 +16,8 @@ import Habit from "@/components/Habit";
 
 const Index = () => {
   // Common state for bowl & plan
-  const [selectedBowl, setSelectedBowl] = useState<string | null>(null);
-  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  const [selectedBowl, setSelectedBowl] = useState<string | null>("basic");
+  const [selectedPlan, setSelectedPlan] = useState<string | null>("onetime");
 
   return (
     <div className="min-h-screen">

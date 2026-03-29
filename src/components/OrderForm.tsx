@@ -24,13 +24,24 @@ const OrderForm = ({
     e.preventDefault();
     const bowlObj = bowls.find((b) => b.id === selectedBowl);
     const planObj = newPlans.find((p) => p.id === selectedPlan);
+    // get price from selected plan
+    const bowlType = bowlObj?.id as "basic" | "mid" | "premium";
+    const price = planObj?.prices?.[bowlType];
 
-    const msg = `Hi Morning Fuel! I'd like to place an order.
-    
+    const msg = `Hi Morning Fuel! 👋
+
+I’d like to place an order:
+
 Name: ${name}
 Address: ${address}
-Bowl: ${bowlObj?.name ?? selectedBowl}
-Plan: ${planObj?.name ?? selectedPlan}`;
+
+Order Details:
+• Bowl: ${bowlObj?.name ?? selectedBowl}
+• Plan: ${planObj?.name ?? selectedPlan}
+
+Order Total: ₹${price ?? "N/A"}${planObj?.period ?? ""}
+
+Looking forward to your confirmation. Thank you! ✨`;
 
     window.open(
       `https://wa.me/919106116932?text=${encodeURIComponent(msg)}`,

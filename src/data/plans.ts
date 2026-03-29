@@ -66,11 +66,11 @@ export const newPlans = [
     name: "Monthly",
     period: "/month",
     prices: {
-      basic: 1200,   // less than 20*69=1380
-      mid: 1500,     // less than 20*89=1780
-      premium: 2000, // less than 20*119=2380
+      basic: 1350,   // less than 20*69=1380
+      mid: 1750,     // less than 20*89=1780
+      premium: 2450, // less than 20*119=2380
     },
-    features: ["20–22 days delivery", "Max savings", "Priority service"],
+    features: ["Weekday deliveries (Mon–Fri)", "Max savings", "Priority service"],
     popular: true,
   },
 ];
