@@ -72,9 +72,18 @@ const Menu = ({
                   {item.description}
                 </p>
                 <div className="flex items-center justify-between">
-                  <span className="text-2xl font-extrabold text-primary">
-                    ₹{item.price}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl font-extrabold text-primary">
+                      ₹{item.price}
+                    </span>
+
+                    {item.originalPrice && (
+                      <span className="text-xl text-muted-foreground line-through">
+                        ₹{item.originalPrice}
+                      </span>
+                    )}
+                  </div>
+
                   <button
                     onClick={() => handleOrderClick(item.id)}
                     className="bg-primary text-primary-foreground text-sm font-semibold px-5 py-2 rounded-full hover:opacity-90 active:scale-[0.97] transition-all"
@@ -82,6 +91,9 @@ const Menu = ({
                     Order
                   </button>
                 </div>
+                <p className="text-muted-foreground text-sm mt-1">
+                  Limited time offer
+                </p>
               </div>
 
               {/* <div className="p-5 flex flex-col justify-between h-full">

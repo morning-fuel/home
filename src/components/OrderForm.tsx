@@ -17,14 +17,26 @@ const OrderForm = ({
   setSelectedPlan,
 }: OrderFormProps) => {
   const { ref, isVisible } = useScrollReveal();
+
   const [name, setName] = React.useState("");
   const [address, setAddress] = React.useState("");
+  const [pincode, setPincode] = React.useState("");
+  const [pincodeError, setPincodeError] = React.useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // ✅ Pincode validation (Ahmedabad only)
+    if (!/^380\d{3}$/.test(pincode)) {
+      setPincodeError("🚫 Only Ahmedabad pincodes (380xxx) are serviceable.");
+      return;
+    }
+
+    setPincodeError("");
+
     const bowlObj = bowls.find((b) => b.id === selectedBowl);
     const planObj = newPlans.find((p) => p.id === selectedPlan);
-    // get price from selected plan
+
     const bowlType = bowlObj?.id as "basic" | "mid" | "premium";
     const price = planObj?.prices?.[bowlType];
 
@@ -33,7 +45,7 @@ const OrderForm = ({
 I’d like to place an order:
 
 Name: ${name}
-Address: ${address}
+Address: ${address} - ${pincode}
 
 Order Details:
 • Bowl: ${bowlObj?.name ?? selectedBowl}
@@ -49,7 +61,6 @@ Looking forward to your confirmation. Thank you! ✨`;
     );
   };
 
-  // Get available plans for selected bowl
   const availablePlans = newPlans.map((plan) => ({
     ...plan,
     price: plan.prices[selectedBowl as keyof typeof plan.prices],
@@ -107,6 +118,25 @@ Looking forward to your confirmation. Thank you! ✨`;
             />
           </div>
 
+          {/* ✅ Pincode */}
+          <div>
+            <label className="block text-sm font-medium text-foreground mb-1.5">
+              Pincode
+            </label>
+            <input
+              type="text"
+              required
+              value={pincode}
+              onChange={(e) => setPincode(e.target.value)}
+              className="w-full border border-border rounded-xl px-4 py-3 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/40 transition"
+              placeholder="Enter 6-digit pincode"
+            />
+
+            {pincodeError && (
+              <p className="text-xs text-red-500 mt-1">{pincodeError}</p>
+            )}
+          </div>
+
           {/* Select Bowl */}
           <div>
             <label className="block text-sm font-medium text-foreground mb-1.5">
@@ -142,6 +172,15 @@ Looking forward to your confirmation. Thank you! ✨`;
               ))}
             </select>
           </div>
+
+          {/* Info */}
+          <p className="text-xs text-muted-foreground mt-1">
+            📍 We currently deliver only within Ahmedabad (380xxx pincodes)
+          </p>
+
+          <p className="text-xs text-muted-foreground mt-1">
+            🚚 Free delivery within 5 km, charges apply beyond.
+          </p>
 
           <button
             type="submit"

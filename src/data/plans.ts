@@ -48,7 +48,7 @@ export const newPlans = [
       mid: 89,
       premium: 119,
     },
-    features: ["One-time delivery", "Choose any bowl"],
+    features: ["One-time delivery", "Fresh fruit bowl"],
   },
   {
     id: "weekly",
@@ -60,6 +60,7 @@ export const newPlans = [
       premium: 550,  // less than 5*119=595
     },
     features: ["5 days delivery (Mon–Fri)", "Fresh bowls daily", "Discounted price"],
+    popular: true,
   },
   {
     id: "monthly",
@@ -71,6 +72,5 @@ export const newPlans = [
       premium: 2450, // less than 20*119=2380
     },
     features: ["Weekday deliveries (Mon–Fri)", "Max savings", "Priority service"],
-    popular: true,
   },
 ];

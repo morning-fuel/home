@@ -56,22 +56,26 @@ const SubscriptionPlans = ({
             Choose Your Bowl & Plan
           </h2>
         </div>
-
         {/* Benefits */}
         <div className="flex flex-wrap justify-center gap-6 mb-10">
           {benefits.map((b) => (
-            <div key={b.label} className="flex items-center gap-2 text-sm font-medium text-foreground">
+            <div
+              key={b.label}
+              className="flex items-center gap-2 text-sm font-medium text-foreground"
+            >
               <span className="text-xl">{b.icon}</span> {b.label}
             </div>
           ))}
         </div>
-
         {/* Accordion for Bowls */}
         <div className="space-y-4 max-w-4xl mx-auto">
           {bowls.map((bowl) => {
             const isOpen = openBowl === bowl.id;
             return (
-              <div key={bowl.id} className="border rounded-2xl bg-background overflow-hidden">
+              <div
+                key={bowl.id}
+                className="border rounded-2xl bg-background overflow-hidden"
+              >
                 {/* Accordion Header */}
                 <button
                   onClick={() => handleAccordionToggle(bowl.id)}
@@ -84,8 +88,12 @@ const SubscriptionPlans = ({
                       className="w-16 h-16 rounded-xl object-cover border"
                     />
                     <div>
-                      <h3 className="text-lg font-bold text-foreground">{bowl.name}</h3>
-                      <p className="text-sm text-muted-foreground">{bowl.description}</p>
+                      <h3 className="text-lg font-bold text-foreground">
+                        {bowl.name}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        {bowl.description}
+                      </p>
                     </div>
                   </div>
                   <span className="text-2xl">{isOpen ? "−" : "+"}</span>
@@ -97,13 +105,16 @@ const SubscriptionPlans = ({
                     {newPlans.map((plan) => {
                       const price = plan.prices[bowl.id];
                       const isPopular = plan.popular;
-                      const isSelected = selectedBowl === bowl.id && selectedPlan === plan.id;
+                      const isSelected =
+                        selectedBowl === bowl.id && selectedPlan === plan.id;
 
                       return (
                         <div
                           key={`${bowl.id}-${plan.id}`}
                           className={`p-4 rounded-2xl border transition-all hover:shadow-lg ${
-                            isPopular ? "ring-2 ring-primary scale-[1.02]" : "border-border"
+                            isPopular
+                              ? "ring-2 ring-primary scale-[1.02]"
+                              : "border-border"
                           } ${isSelected ? "bg-primary/10" : ""}`}
                         >
                           {isPopular && (
@@ -111,10 +122,16 @@ const SubscriptionPlans = ({
                               ⭐ Most Popular
                             </div>
                           )}
-                          <h4 className="font-semibold text-lg mb-1 text-center">{plan.name}</h4>
+                          <h4 className="font-semibold text-lg mb-1 text-center">
+                            {plan.name}
+                          </h4>
                           <div className="flex items-baseline justify-center gap-1 mb-3">
-                            <span className="text-2xl font-extrabold text-primary">₹{price}</span>
-                            <span className="text-sm text-muted-foreground">{plan.period}</span>
+                            <span className="text-2xl font-extrabold text-primary">
+                              ₹{price}
+                            </span>
+                            <span className="text-sm text-muted-foreground">
+                              {plan.period}
+                            </span>
                           </div>
                           <ul className="space-y-1 mb-4 text-sm text-foreground">
                             {plan.features.map((f) => (

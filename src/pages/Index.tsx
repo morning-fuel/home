@@ -13,6 +13,7 @@ import Benefits from "@/components/Benefits";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import Trust from "@/components/Trust";
 import Habit from "@/components/Habit";
+import InfoBanner from "@/components/InfoBanner";
 
 const Index = () => {
   // Common state for bowl & plan
@@ -22,23 +23,27 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       <Navbar />
+      <InfoBanner />
       <Hero />
-      <LifestyleHook />
-      <Comparison />
       <Menu
         selectedBowl={selectedBowl}
         setSelectedBowl={setSelectedBowl}
         selectedPlan={selectedPlan}
         setSelectedPlan={setSelectedPlan}
       />
-      <Benefits />
-      <Habit />
       <SubscriptionPlans
         selectedBowl={selectedBowl}
         setSelectedBowl={setSelectedBowl}
         selectedPlan={selectedPlan}
         setSelectedPlan={setSelectedPlan}
       />
+      <LifestyleHook />
+
+      {/* <Comparison /> */}
+
+      <Benefits />
+      {/* <Habit /> */}
+
       <OrderForm
         selectedBowl={selectedBowl}
         setSelectedBowl={setSelectedBowl}
@@ -46,8 +51,8 @@ const Index = () => {
         setSelectedPlan={setSelectedPlan}
       />
       <WhyChooseUs />
-      <Tracking />
-      <MapSection />
+      {/* <Tracking /> */}
+      {/* <MapSection /> */}
       <Trust />
       <Footer />
     </div>
