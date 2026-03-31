@@ -17,8 +17,8 @@ import InfoBanner from "@/components/InfoBanner";
 
 const Index = () => {
   // Common state for bowl & plan
-  const [selectedBowl, setSelectedBowl] = useState<string | null>("basic");
-  const [selectedPlan, setSelectedPlan] = useState<string | null>("onetime");
+  const [selectedBowl, setSelectedBowl] = useState<string | null>("premium");
+  const [selectedPlan, setSelectedPlan] = useState<string | null>("monthly");
 
   return (
     <div className="min-h-screen">

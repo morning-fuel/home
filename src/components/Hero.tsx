@@ -19,7 +19,7 @@ Looking forward to your confirmation. Thank you! ✨`;
   };
 
   return (
-    <section className="relative min-h-screen flex items-center gradient-bg-hero overflow-hidden pt-16">
+    <section className="relative min-h-screen flex items-center gradient-bg-hero overflow-hidden">
       {/* Decorative floating icons */}
       <div className="absolute top-28 right-8 md:right-16 animate-float opacity-80">
         <Leaf className="w-8 h-8 text-white/60" />

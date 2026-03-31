@@ -8,18 +8,11 @@ interface MenuProps {
   setSelectedPlan?: (id: string) => void;
 }
 
-const Menu = ({
-  selectedBowl,
-  setSelectedBowl,
-  selectedPlan,
-  setSelectedPlan,
-}: MenuProps) => {
+const Menu = ({ selectedBowl, setSelectedBowl }: MenuProps) => {
   const { ref, isVisible } = useScrollReveal();
 
   const handleOrderClick = (bowlId: string) => {
     setSelectedBowl(bowlId);
-
-    // Scroll smoothly to the order form
     const orderSection = document.getElementById("order");
     orderSection?.scrollIntoView({ behavior: "smooth" });
   };
@@ -42,84 +35,93 @@ const Menu = ({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {bowls.map((item, i) => (
-            <div
-              key={item.id}
-              className={`glass-card-hover rounded-2xl overflow-hidden group transition-all duration-700 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: `${(i + 1) * 100}ms` }}
-            >
-              <div className="relative overflow-hidden">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-full h-52 object-cover transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
-                />
-                <span className="absolute top-3 left-3 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full">
-                  {item.tag}
-                </span>
-              </div>
+          {bowls.map((item, i) => {
+            const isSelected = selectedBowl === item.id;
 
-              <div className="p-5">
-                <h3 className="font-bold text-lg text-foreground">
-                  {item.name}
-                </h3>
-                <p className="text-muted-foreground text-sm mt-1 mb-4">
-                  {item.description}
-                </p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="text-2xl font-extrabold text-primary">
-                      ₹{item.price}
-                    </span>
+            return (
+              <div
+                key={item.id}
+                className={`rounded-2xl overflow-hidden group transition-all duration-700 border ${
+                  isSelected
+                    ? "border-primary shadow-lg scale-[1.02]"
+                    : "border-transparent glass-card-hover"
+                } ${
+                  isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
+                }`}
+                style={{ transitionDelay: `${(i + 1) * 100}ms` }}
+              >
+                {/* Image */}
+                <div className="relative overflow-hidden">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-full h-52 object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
 
-                    {item.originalPrice && (
-                      <span className="text-xl text-muted-foreground line-through">
-                        ₹{item.originalPrice}
-                      </span>
-                    )}
+                  <span className="absolute top-3 left-3 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full">
+                    {item.tag}
+                  </span>
+
+                  {/* Offer Badge */}
+                  <span className="absolute top-3 right-3 bg-black/70 text-white text-xs px-3 py-1 rounded-full">
+                    {item.offer}
+                  </span>
+                </div>
+
+                {/* Content */}
+                <div className="p-5 flex flex-col h-full">
+                  <div>
+                    <h3 className="font-bold text-lg text-foreground">
+                      {item.name}
+                    </h3>
+
+                    <p className="text-muted-foreground text-sm mt-1 mb-3">
+                      {item.description}
+                    </p>
+
+                    {/* Fruits List */}
+                    <ul className="text-xs text-muted-foreground mb-4 space-y-1">
+                      {item.fruits.map((fruit, idx) => (
+                        <li key={idx}>• {fruit}</li>
+                      ))}
+                    </ul>
                   </div>
 
-                  <button
-                    onClick={() => handleOrderClick(item.id)}
-                    className="bg-primary text-primary-foreground text-sm font-semibold px-5 py-2 rounded-full hover:opacity-90 active:scale-[0.97] transition-all"
-                  >
-                    Order
-                  </button>
-                </div>
-                <p className="text-muted-foreground text-sm mt-1">
-                  Limited time offer
-                </p>
-              </div>
+                  {/* Bottom */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-2xl font-extrabold text-primary">
+                        ₹{item.price}
+                      </span>
 
-              {/* <div className="p-5 flex flex-col justify-between h-full">
-                <div>
-                  <h3 className="font-bold text-lg text-foreground">
-                    {item.name}
-                  </h3>
-                  <p className="text-muted-foreground text-sm mt-1 mb-4">
-                    {item.description}
+                      {item.originalPrice && (
+                        <span className="text-sm text-muted-foreground line-through">
+                          ₹{item.originalPrice}
+                        </span>
+                      )}
+                    </div>
+
+                    <button
+                      onClick={() => handleOrderClick(item.id)}
+                      className={`text-sm font-semibold px-5 py-2 rounded-full transition-all ${
+                        isSelected
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-primary/90 text-primary-foreground hover:bg-primary"
+                      } active:scale-[0.97]`}
+                    >
+                      {isSelected ? "Selected" : "Order"}
+                    </button>
+                  </div>
+                  <p className="text-muted-foreground text-sm mt-1">
+                    Limited time offer
                   </p>
                 </div>
-
-                <div className="flex items-center justify-between mt-auto">
-                  <span className="text-2xl font-extrabold text-primary">
-                    ₹{item.price}
-                  </span>
-                  <button
-                    onClick={() => handleOrderClick(item.id)}
-                    className="bg-primary text-primary-foreground text-sm font-semibold px-5 py-2 rounded-full hover:opacity-90 active:scale-[0.97] transition-all"
-                  >
-                    Order
-                  </button>
-                </div>
-              </div> */}
-            </div>
-          ))}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
